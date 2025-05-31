@@ -7,20 +7,6 @@ x-defaults: &defaults
 
 
 services:
-  web:
-    image: dairoot/chatgpt-mirror:latest
-    environment:
-      - CHATGPT_GATEWAY_URL=http://gateway:8787
-    ports:
-      - "50002:50002"
-    # depends_on:
-    #   - gateway
-    volumes:
-      - chatgpt_mirror_db:/app/backend/db/
-      - ./backend/logs:/app/backend/logs
-    <<: *defaults
-
-
   gateway:
     image: dairoot/chatgpt-gateway:latest
     # ports:
@@ -31,15 +17,6 @@ services:
       - redis
     environment:
       - REDIS_URL=redis://redis:6379/0
-    <<: *defaults
-
-
-  cf5s:
-    image: dairoot/cf5s:latest
-    depends_on:
-      - gateway
-    environment:
-      - CHATGPT_GATEWAY_URL=http://gateway:8787
     <<: *defaults
 
 
@@ -62,5 +39,4 @@ services:
 
 
 volumes:
-  chatgpt_mirror_db:
   chatgpt_gateway_db:
